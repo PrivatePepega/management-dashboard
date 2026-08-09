@@ -7,6 +7,7 @@ import { z } from "zod";
 import { useActionState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useSignUpMutation } from "@/hooks/use-auth";
 
 
 
@@ -21,6 +22,7 @@ type FormState = {
 
 
 
+export type SignupFormData = z.infer<typeof signUpSchema>;
 
 const signup = () => {
 
@@ -28,6 +30,7 @@ const signup = () => {
   const [state, formAction] = useActionState(createUser,initialState);
 
 
+  const {mutate, isPending} = useSignUpMutation()
 
 
 
