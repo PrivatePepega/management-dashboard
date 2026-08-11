@@ -25,13 +25,13 @@ type FormState = {
 const signin = () => {
 
   const initialState: FormState = {};
-  const [state, formAction] = useActionState(createUser,initialState);
+  const [state, formAction] = useActionState(signIn,initialState);
 
 
 
 
 
-  async function createUser(
+  async function signIn(
     previousState: FormState,
     formData: FormData
   ): Promise<FormState> {

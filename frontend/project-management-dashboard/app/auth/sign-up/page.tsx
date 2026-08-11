@@ -8,6 +8,7 @@ import { useActionState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useSignUpMutation } from "@/hooks/use-auth";
+import { toast } from "sonner";
 
 
 
@@ -44,12 +45,13 @@ const signup = () => {
       name: formData.get("name"),
       confirmPassword: formData.get("confirmPassword")
     };
+    console.log(data);
+
+    const zodResult = signUpSchema.safeParse(data);
   
-    const result = signUpSchema.safeParse(data);
-  
-    if (!result.success) {
-      const errors = z.treeifyError(result.error);
-  
+    if (!zodResult.success) {
+      const errors = z.treeifyError(zodResult.error);
+
       return {
         errors: {
           email: errors.properties?.email?.errors,
@@ -61,10 +63,17 @@ const signup = () => {
       };
     }
   
-    const { email, password, name, confirmPassword } = result.data;
-  
-    console.log(email, password, name, confirmPassword);
-  
+    mutate(zodResult.data, {
+      onSuccess: () => {
+        toast.success("Account created succesfully");
+      },
+      onError: (error:any) =>{
+        const errorMessage = error.response?.data?.message || "An error occured";
+        console.log("Error message:", errorMessage);
+        toast.error(errorMessage);
+      }
+    });
+
     return {};
   }
 
@@ -99,7 +108,7 @@ const signup = () => {
             <p>{state.errors.confirmPassword[0]}</p>
           )}
 
-          <Button type="submit">Create Account</Button>
+          <Button type="submit" disabled={isPending}>Create Account</Button>
         </form>
       </div>
       <div className="flex flex-col items-center">

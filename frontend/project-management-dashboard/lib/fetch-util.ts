@@ -1,21 +1,15 @@
 import axios from "axios";
 
-const BASE_URL = process.env.API_URL || "http://localhost:5000/api-v1";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api-v1";
 
 const api = axios.create({
   baseURL: BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true,
 });
 
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token ?? ""}`;
-  }
-  return config;
-});
 
 // Add a global handler for 401 errors
 api.interceptors.response.use(
