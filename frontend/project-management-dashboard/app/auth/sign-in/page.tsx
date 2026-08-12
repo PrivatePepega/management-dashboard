@@ -7,6 +7,10 @@ import { z } from "zod";
 import { useActionState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useLoginMutation } from "@/hooks/use-auth";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 
 
@@ -26,8 +30,9 @@ const signin = () => {
 
   const initialState: FormState = {};
   const [state, formAction] = useActionState(signIn,initialState);
+  const router = useRouter();
 
-
+  const {mutate, isPending} = useLoginMutation()
 
 
 
@@ -53,10 +58,21 @@ const signin = () => {
       };
     }
   
-    const { email, password } = result.data;
-  
-    console.log(email, password);
-  
+    mutate(result.data, {
+      onSuccess: () => {
+        toast.success("Log in successfull", {
+          description: "Sending to dashboard wait a few"
+        });
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 3000);      
+      },
+      onError: (error:any) =>{
+        const errorMessage = error.response?.data?.message || "An error occured";
+        console.log("Error message:", errorMessage);
+        toast.error(errorMessage);
+      }
+    });
     return {};
   }
 
@@ -84,7 +100,9 @@ const signin = () => {
           )}
           <Link href="/auth/forgot-password" className="text-xs">Forgot password?</Link>
 
-          <Button type="submit">Login</Button>
+          <Button type="submit">
+            {isPending ? <Loader2 className="w-4 h-4 mr-2"/> : "Login"}
+          </Button>
         </form>
       </div>
       <div className="flex flex-col items-center">

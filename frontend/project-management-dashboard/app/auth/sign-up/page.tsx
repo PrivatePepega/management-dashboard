@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useSignUpMutation } from "@/hooks/use-auth";
 import { toast } from "sonner";
-
+import { useRouter } from "next/navigation";
 
 
 type FormState = {
@@ -30,7 +30,7 @@ const signup = () => {
   const initialState: FormState = {};
   const [state, formAction] = useActionState(createUser,initialState);
 
-
+  const router = useRouter();
   const {mutate, isPending} = useSignUpMutation()
 
 
@@ -65,8 +65,12 @@ const signup = () => {
   
     mutate(zodResult.data, {
       onSuccess: () => {
-        toast.success("Account created succesfully");
-      },
+        toast.success("Account created succesfully", {
+          description: "Please check your email and verify, re-routing to Sign In"
+        });
+        setTimeout(() => {
+          router.push("/auth/sign-in");
+        }, 3000);      },
       onError: (error:any) =>{
         const errorMessage = error.response?.data?.message || "An error occured";
         console.log("Error message:", errorMessage);

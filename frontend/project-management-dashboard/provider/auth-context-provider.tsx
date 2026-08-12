@@ -5,21 +5,18 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { queryClient } from "@/provider/react-query-provider";
 import { usePathname, useRouter } from "next/navigation";
 import { publicRoutes } from "@/lib";
+import { useAuthMeMutation, useLogoutMutation } from "@/hooks/use-auth";
 
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (data: any) => Promise<void>;
   logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
 
     const router = useRouter();
@@ -27,22 +24,29 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const isPublicRoute = publicRoutes.includes(currentPath);
 
 
+    const { data, isLoading } = useAuthMeMutation();
+
+    const user = data?.user ?? null;
+    const isAuthenticated = !!data?.authenticated;
 
 
 
-  const login = async (data: any) => {
+    const { mutateAsync: logoutRequest } = useLogoutMutation();
 
-  };
-
-  const logout = async () => {
-
-  };
+    const logout = async () => {
+      try {
+        await logoutRequest();
+    
+        queryClient.clear();
+      } catch (error) {
+        console.error("Logout failed:", error);
+      }
+    };
 
   const values = {
     user,
     isAuthenticated,
     isLoading,
-    login,
     logout,
   };
 

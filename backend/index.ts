@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import morgan from "morgan";
 import type { Request, Response, NextFunction, Errback } from 'express'
 import routes from "./routes/index.js"
+import cookieParser from "cookie-parser";
 
 
 
@@ -19,7 +20,7 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
-
+app.use(cookieParser());
 app.use(morgan("dev"));
 app.use(express.json());
 mongoose.connect(process.env.MONGODB_URI || "")
