@@ -1,8 +1,8 @@
 import express from "express"
 import z from "zod"
 import {validateRequest} from "../middleware/validateRequest.js"
-import {registerSchema, loginSchema, verifyEmailSchema} from "../validators/validate-schema.js"
-import {registerUser, loginUser, verifyEmail, authMe, logoutUser} from "../controller/auth-controller.js"
+import {registerSchema, loginSchema, verifyEmailSchema, resetPasswordSchema, resetPasswordRequestSchema} from "../validators/validate-schema.js"
+import {registerUser, loginUser, verifyEmail, authMe, logoutUser, resetPasswordRequest, verifyResetPasswordTokenAndResetPassword} from "../controller/auth-controller.js"
 
 
 const router = express.Router();
@@ -17,5 +17,8 @@ router.get("/me", authMe)
 
 router.post("/logout", logoutUser)
 
+router.post("/reset-password-request", validateRequest(resetPasswordRequestSchema), resetPasswordRequest)
+
+router.post("/reset-password", validateRequest(resetPasswordSchema), verifyResetPasswordTokenAndResetPassword)
 
 export default router;

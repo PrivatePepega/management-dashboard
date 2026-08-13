@@ -33,7 +33,6 @@ export const useForgotPasswordMutation = () => {
 export const useResetPasswordMutation = () => {
   return useMutation({
     mutationFn: (data: {
-      token: string;
       newPassword: string;
       confirmPassword: string;
     }) => postData("/auth/reset-password", data),
