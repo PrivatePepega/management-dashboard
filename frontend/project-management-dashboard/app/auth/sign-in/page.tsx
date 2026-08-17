@@ -11,6 +11,7 @@ import { useLoginMutation } from "@/hooks/use-auth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 
@@ -33,6 +34,7 @@ const signin = () => {
   const router = useRouter();
 
   const {mutate, isPending} = useLoginMutation()
+  const queryClient = useQueryClient();
 
 
 
@@ -59,13 +61,18 @@ const signin = () => {
     }
   
     mutate(result.data, {
-      onSuccess: () => {
+      onSuccess: async () => {
         toast.success("Log in successfull", {
           description: "Sending to dashboard wait a few"
         });
-        setTimeout(() => {
-          router.push("/dashboard");
-        }, 3000);      
+
+        await queryClient.refetchQueries({
+          queryKey: ["auth-me"],
+        });
+    
+    
+        router.push("/dashboard");
+
       },
       onError: (error:any) =>{
         const errorMessage = error.response?.data?.message || "An error occured";

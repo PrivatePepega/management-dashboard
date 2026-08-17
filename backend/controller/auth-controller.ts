@@ -116,7 +116,7 @@ try{
 const loginUser = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-console.log("server hit")
+
     const user = await User.findOne({ email }).select("+password");
 
     if (!user) {

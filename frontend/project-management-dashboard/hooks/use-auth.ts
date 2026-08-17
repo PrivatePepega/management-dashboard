@@ -1,7 +1,7 @@
 import { fetchData, postData } from "@/lib/fetch-util";
 import type { SignupFormData } from "@/app/auth/sign-up/page";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { User } from "@/types";
+import { User, Workspace } from "@/types";
 
 export const useSignUpMutation = () => {
   return useMutation({
@@ -50,5 +50,12 @@ export const useAuthMeMutation = () => {
 export const useLogoutMutation = () => {
   return useMutation({
     mutationFn: () => postData("/auth/logout", {}),
+  });
+};
+
+export const useWorkspacesQuery = () => {
+  return useQuery({
+    queryKey: ["workspaces"],
+    queryFn: () => fetchData<Workspace[]>("/workspaces"),
   });
 };

@@ -2,6 +2,13 @@
 
 import { useAuth } from "@/provider/auth-context-provider";
 import { redirect } from "next/navigation";
+import { Button } from '@/components/ui/button';
+import React, { useState } from 'react'
+import { Workspace } from "@/types";
+import {Header} from "@/components/layout/Header";
+import { SidebarComponent } from "@/components/layout/Sidebar-Component";
+
+
 
 export default function DashboardLayout({
   children,
@@ -9,6 +16,17 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const { isAuthenticated, isLoading } = useAuth();
+  const [isCreatingWorkspace, setIsCreatingWorkspace] = useState(false)
+  const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null> (null)
+
+
+
+  const handleWorkspaceSelected = (workspace: Workspace) => {
+    setCurrentWorkspace(workspace);
+  };
+
+
+
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -18,5 +36,21 @@ export default function DashboardLayout({
     redirect("/auth/sign-in");
   }
 
-  return <>{children}</>;
+  return <>
+    <div className="flex h-screen w-full">
+      <SidebarComponent currentWorkspace={currentWorkspace}/>
+      <div className="flex flex-1 flex-col h-full">
+        <Header
+          onWorkspaceSelected = {handleWorkspaceSelected}
+          selectedWorkspace = {currentWorkspace}
+          onCreateWorkspace = {() => setIsCreatingWorkspace(true)}
+        />
+        <main className="flex-1 overflow-y-auto h-full w-full">
+          <div className="mx-auto container px-2 sm:px-8 py-0 md:py-8 w-full h-full">
+            {children}
+          </div>
+        </main>
+      </div>
+    </div>
+  </>;
 }
