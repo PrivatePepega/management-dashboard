@@ -11,7 +11,7 @@ import {
   DropdownMenuGroup,
 } from "../ui/dropdown-menu";
 import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
-import { WorkspaceAvatar } from "../workspace/work-sapce-avatar";
+import { WorkspaceAvatar } from "../workspace/work-space-avatar";
 import { useAuth } from "@/provider/auth-context-provider";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";

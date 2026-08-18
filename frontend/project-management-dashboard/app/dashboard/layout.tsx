@@ -7,6 +7,12 @@ import React, { useState } from 'react'
 import { Workspace } from "@/types";
 import {Header} from "@/components/layout/Header";
 import { SidebarComponent } from "@/components/layout/Sidebar-Component";
+import { CreateWorkspace } from "@/components/workspace/create-workspace";
+import { fetchData } from "@/lib/fetch-util";
+
+
+
+
 
 
 
@@ -18,7 +24,6 @@ export default function DashboardLayout({
   const { isAuthenticated, isLoading } = useAuth();
   const [isCreatingWorkspace, setIsCreatingWorkspace] = useState(false)
   const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null> (null)
-
 
 
   const handleWorkspaceSelected = (workspace: Workspace) => {
@@ -51,6 +56,10 @@ export default function DashboardLayout({
           </div>
         </main>
       </div>
+      <CreateWorkspace 
+        isCreatingWorkspace={isCreatingWorkspace}
+        setIsCreatingWorkspace={setIsCreatingWorkspace}
+      />
     </div>
   </>;
 }

@@ -5,7 +5,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { queryClient } from "@/provider/react-query-provider";
 import { usePathname, useRouter } from "next/navigation";
 import { publicRoutes } from "@/lib";
-import { useAuthMeMutation, useLogoutMutation } from "@/hooks/use-auth";
+import { useAuthMeQuery, useLogoutMutation } from "@/hooks/use-auth";
 
 interface AuthContextType {
   user: User | null;
@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const isPublicRoute = publicRoutes.includes(currentPath);
 
 
-    const { data, isLoading } = useAuthMeMutation();
+    const { data, isLoading } = useAuthMeQuery();
 
     const user = data?.user ?? null;
     const isAuthenticated = !!data?.authenticated;

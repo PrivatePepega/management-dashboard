@@ -39,7 +39,7 @@ export const useResetPasswordMutation = () => {
   });
 };
 
-export const useAuthMeMutation = () => {
+export const useAuthMeQuery = () => {
   return useQuery({
     queryKey: ["auth-me"],
     queryFn: () => fetchData<{ authenticated: boolean; user: User }>("/auth/me"),
