@@ -43,7 +43,6 @@ export const Header = ({
     if (isOnWorkspacePage) {
         router.push(`/workspaces/${workspace._id}`);
     } else {
-
       router.push(`${pathname}?workspaceId=${workspace._id}`);
     }
   };
@@ -100,7 +99,7 @@ export const Header = ({
                 <DropdownMenuGroup>
                     <DropdownMenuItem onClick={onCreateWorkspace}>
                     <PlusCircle className="w-4 h-4 mr-2" />
-                    Create Workspace
+                      Create Workspace
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
                 </DropdownMenuContent>

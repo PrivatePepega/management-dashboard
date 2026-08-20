@@ -3,8 +3,7 @@
 import { useAuth } from "@/provider/auth-context-provider";
 import { redirect } from "next/navigation";
 import { Button } from '@/components/ui/button';
-import React, { useState } from 'react'
-import { Workspace } from "@/types";
+import React, { useEffect, useState } from 'react'
 import {Header} from "@/components/layout/Header";
 import { SidebarComponent } from "@/components/layout/Sidebar-Component";
 import { CreateWorkspace } from "@/components/workspace/create-workspace";
@@ -16,7 +15,7 @@ import { fetchData } from "@/lib/fetch-util";
 
 
 
-export default function DashboardLayout({
+export default function WorkspaceLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -25,7 +24,9 @@ export default function DashboardLayout({
   const [isCreatingWorkspace, setIsCreatingWorkspace] = useState(false)
 
 
-
+  useEffect(()=>{
+    handleWorkspaceSelected(null)
+  },[])
 
 
   if (isLoading) {

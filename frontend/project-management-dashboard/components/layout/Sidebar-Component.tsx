@@ -39,22 +39,22 @@ export const SidebarComponent = ({
     },
     {
       title: "My Tasks",
-      href: "/my-tasks",
+      href: "/dashboard/my-tasks",
       icon: ListCheck,
     },
     {
       title: "Members",
-      href: `/members`,
+      href: `/dashboard/members`,
       icon: Users,
     },
     {
       title: "Achieved",
-      href: `/achieved`,
+      href: `/dashboard/achieved`,
       icon: CheckCircle2,
     },
     {
       title: "Settings",
-      href: "/settings",
+      href: "/dashboard/settings",
       icon: Settings,
     },
   ];
