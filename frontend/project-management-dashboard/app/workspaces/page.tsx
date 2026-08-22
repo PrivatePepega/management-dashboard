@@ -17,6 +17,7 @@ import { PlusCircle, Users } from "lucide-react";
 import { useState } from "react";
 import { format } from "date-fns";
 import Link from "next/link";
+import { useAuth } from "@/provider/auth-context-provider";
 
 
 
@@ -26,6 +27,8 @@ const Workspaces = () => {
     data: Workspace[];
     isLoading: boolean;
   };
+
+
 
   if (isLoading) {
     return <Loader />;
@@ -67,8 +70,10 @@ const Workspaces = () => {
 };
 
 const WorkspaceCard = ({ workspace }: { workspace: Workspace }) => {
+  const {handleWorkspaceSelected } = useAuth();
+
   return (
-    <Link href={`/workspaces/${workspace._id}`}>
+    <Link href={`/workspaces/${workspace._id}`} onClick={()=>handleWorkspaceSelected(workspace)}>
       <Card className="transition-all hover:shadow-md hover:-translate-y-1">
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between">

@@ -5,6 +5,7 @@ import type { Workspace } from "@/types";
 import type { LucideIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { usePathname, useRouter } from "next/navigation";
+import { useAuth } from "@/provider/auth-context-provider";
 
 interface SidebarNavProps
   extends React.HTMLAttributes<HTMLElement> {
@@ -27,6 +28,7 @@ export const SidebarNav = ({
 }: SidebarNavProps) => {
   const pathname = usePathname();
   const router = useRouter();
+  const { handleWorkspaceSelected } = useAuth();
 
 
 
@@ -43,6 +45,7 @@ export const SidebarNav = ({
         const handleClick = () => {
           if (el.href === "/workspaces") {
             router.push(el.href);
+            handleWorkspaceSelected(null)
           } else if (currentWorkspace?._id) {
             router.push(
               `${el.href}?workspaceId=${currentWorkspace._id}`
