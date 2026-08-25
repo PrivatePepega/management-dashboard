@@ -1,17 +1,17 @@
+// app/workspaces/[workspaceId]/page.tsx
 "use client"
-
-
-const page = () => {
-
-
+import DashboardDetails from "./dashboardDetails";
+import { useSearchParams } from "next/navigation";
 
 
 
-  return (
-    <div>
-      page
-    </div>
-  )
-}
 
-export default page
+
+export default function Page() {
+
+    const searchParams = useSearchParams();
+
+    const workspaceId = searchParams.get("workspaceId");
+  
+    return <DashboardDetails workspaceId={workspaceId}/>;
+  }
